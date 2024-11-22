@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GuestEase - Simplify Room Services</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <!-- AOS Animation Library -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif; /* Body text with Montserrat */
+      background: #F7F7F3; /* Soft cream background */
+      color: #3E3E3E; /* Muted dark gray for text */
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: #7695d8; /* Lighter navy blue */
+      color: #F7F7F3; /* Light cream text */
+      padding: 30px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header img {
+      max-height: 60px; /* Adjust this according to the size of your logo */
+    }
+
+    header nav a {
+      margin: 0 20px;
+      color: #F7F7F3;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+
+    header nav a:hover {
+      color: #A7AEE5; /* Soft lavender on hover */
+      text-decoration: underline;
+    }
+
+    .hero {
+  position: relative; /* To position child elements properly */
+  text-align: center;
+  padding: 120px 20px;
+  border-bottom: 2px solid #A7AEE5; /* Lavender accent line */
+  color: #F7F7F3;
+  overflow: hidden; /* Ensures pseudo-element doesn't spill */
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('hotel.jpg') no-repeat center center/cover; /* Background image */
+    filter: blur(10px); /* Applies blur effect */
+    z-index: -1; /* Places the pseudo-element behind content */
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  /* Modal styles */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7); /* Background overlay */
+  }
+
+  .modal-content {
+    background: #F7F7F3;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .close {
+    color: #1A1E4A;
+    float: right;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .close:hover {
+    color: #A7AEE5;
+  }
+
+  form label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #1A1E4A;
+  }
+
+  form input, form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #A7AEE5;
+    border-radius: 5px;
+  }
+
+  form button {
+    background: #A7AEE5;
+    color: #1A1E4A;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+
+  form button:hover {
+    background: #4F64A1;
+    color: #F7F7F3;
+  }
+
+
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif; /* Elegant font for headers */
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+    }
+
+    .hero button {
+      background: #A7AEE5;
+      color: #1A1E4A; /* Deep navy text */
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background 0.3s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero button:hover {
+      background: #4F64A1;
+      color: #F7F7F3;
+    }
+
+    section {
+      padding: 80px 20px;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif; /* Elegant font for section titles */
+      text-align: center;
+      font-size: 3rem;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #1A1E4A; /* Deep navy blue */
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: #F7F7F3;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h3 {
+      color: #1A1E4A;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    .card p {
+      color: #3E3E3E;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    /* Pricing Section with Horizontal Scroll */
+    .pricing-section {
+      background: #F0F4FF; /* Light blue background */
+      color: #1A1E4A;
+      padding: 50px 20px;
+      border-top: 2px solid #A7AEE5;
+    }
+
+    .pricing-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .pricing-card {
+      background: #1A1E4A; /* Deep navy blue */
+      border: 1px solid #A7AEE5;
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      width: 300px; /* Slightly larger width */
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .pricing-card h3 {
+      color: #A7AEE5;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    .pricing-card p {
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      color: #F7F7F3;
+    }
+
+    .pricing-card .price {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #A7AEE5; /* Lighter color for price tag */
+      margin-bottom: 20px;
+    }
+
+    .pricing-card button {
+      background: #A7AEE5;
+      color: #1A1E4A;
+      padding: 12px 30px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .pricing-card button:hover {
+      background: #4F64A1;
+      color: #F7F7F3;
+    }
+
+    /* Footer */
+    footer {
+      background: #3E3E3E; /* Muted dark gray */
+      color: #F7F7F3;
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 2px solid #A7AEE5;
+    }
+
+    footer p {
+      font-size: 1rem;
+      margin: 10px 0;
+    }
+
+    footer a {
+      color: #A7AEE5;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <!-- Logo -->
+    <img src="logo.png" alt="GuestEase Logo">
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#footer">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>Welcome to GuestEase</h1>
+    <p>Transforming hotel services with technology</p>
+    <a href="#pricing">
+      <button>Get Started</button>
+    </a>
+  </div>
+  <!-- Services Section -->
+  <section id="services">
+    <h2>Our Premium Hotel Solutions</h2>
+    <div class="services">
+      <div class="card" data-aos="fade-up">
+        <h3>Unified Digital Portal</h3>
+        <p>Streamline your guest experience with a QR-based portal that provides easy access to Wi-Fi credentials, food menus, service requests, and more—all from a single interface.</p>
+      </div>
+      <div class="card" data-aos="fade-up">
+        <h3>Dynamic Service Management</h3>
+        <p>Enable hotel staff to update room-specific details, manage food menus, and assign service requests in real time through our backend management system.</p>
+      </div>
+      <div class="card" data-aos="fade-up">
+        <h3>Real-Time Request Tracking</h3>
+        <p>Enhance operational efficiency with a dashboard that prioritizes guest requests, tracks their status, and ensures timely resolution for ultimate guest satisfaction.</p>
+      </div>
+      <div class="card" data-aos="fade-up">
+        <h3>Personalized Feedback and Incentives</h3>
+        <p>Boost guest engagement with an intuitive feedback system that offers incentives like discounts on food orders or future bookings for valuable insights.</p>
+      </div>
+    </div>
+  </section>
+  <!-- Pricing Section -->
+  <section id="pricing" class="pricing-section">
+    <h2>Affordable Pricing Plans</h2>
+    <div class="pricing-wrapper">
+      <div class="pricing-card">
+        <h3>Basic Plan</h3>
+        <p>Essential features for small hotels</p>
+        <div class="price">₹7,500/month</div>
+        <button onclick="openModal('Basic Plan')">Choose Plan</button>
+      </div>
+      <div class="pricing-card">
+        <h3>Pro Plan</h3>
+        <p>For expanding businesses with more features</p>
+        <div class="price">₹15,000/month</div>
+        <button onclick="openModal('Pro Plan')">Choose Plan</button>
+      </div>
+      <div class="pricing-card">
+        <h3>Enterprise Plan</h3>
+        <p>Complete solution for large-scale operations</p>
+        <div class="price">₹22,500/month</div>
+        <button onclick="openModal('Enterprise Plan')">Choose Plan</button>
+      </div>
+    </div>
+  </section>
+  <!-- Modal -->
+  <div id="planModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>Fill in Your Details</h2>
+      <form id="planForm" onsubmit="handleSubmit(event)">
+        <label for="selectedPlan">Selected Plan:</label>
+        <input type="text" id="selectedPlan" name="selectedPlan" readonly>
+      
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+      
+        <label for="organization">Organization Name:</label>
+        <input type="text" id="organization" name="organization" required>
+      
+        <label for="contact">Contact No:</label>
+        <input type="tel" id="contact" name="contact" required>
+      
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      
+        <button type="submit">Submit</button>
+      </form>      
+    </div>
+  </div>
+  <div id="thankYouMessage" style="display: none; text-align: center; padding: 50px;">
+    <h2>Thank you for filling out the form!</h2>
+    <p>Our team will contact you shortly.</p>
+  </div>
+  
+
+
+  <!-- Footer -->
+  <footer id="footer">
+    <p>&copy; 2024 GuestEase. All rights reserved.</p>
+    <p>Contact Us :
+      <a href="tel:+1234567890">+1 234 567 890</a>  | 
+      Social Media : 
+      <a href="https://www.instagram.com/guestease.official/" target="_blank">Instagram</a> 
+    </p>
+  </footer>
+  
+    
+  <script>
+    function openModal(plan) {
+      document.getElementById("selectedPlan").value = plan; // Set selected plan
+      document.getElementById("planModal").style.display = "block"; // Show modal
+    }
+  
+    function closeModal() {
+      document.getElementById("planModal").style.display = "none"; // Hide modal
+    }
+  
+    // Close modal when clicking outside the content
+    window.onclick = function(event) {
+      const modal = document.getElementById("planModal");
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault(); // Prevent default form submission
+  
+      // Gather form data
+      const formData = {
+        selectedPlan: document.getElementById("selectedPlan").value,
+        name: document.getElementById("name").value,
+        organization: document.getElementById("organization").value,
+        contact: document.getElementById("contact").value,
+        email: document.getElementById("email").value,
+      };
+  
+      // Send data to the backend
+      fetch("http://127.0.0.1:5000/save-data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+        .then((response) => {
+          if (response.ok) {
+            // Hide the modal and show the thank-you message
+            document.getElementById("planModal").style.display = "none";
+            document.getElementById("thankYouMessage").style.display = "block";
+
+            // Scroll to the thank-you message
+            document.getElementById("thankYouMessage").scrollIntoView({
+              behavior: "smooth", // smooth scrolling
+              block: "start" // aligns the message to the top of the viewport
+            });
+          } else {
+            alert("There was an issue submitting the form. Please try again.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("An error occurred. Please try again.");
+        });
+    }
+  </script>
+  
+
+
+  <!-- AOS Animation Library -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+</body>
+</html>
